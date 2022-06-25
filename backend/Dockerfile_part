@@ -1,0 +1,4 @@
+FROM init_bknd
+COPY ./ /app
+WORKDIR /app/foodgram/
+CMD python manage.py runserver 0:8000
