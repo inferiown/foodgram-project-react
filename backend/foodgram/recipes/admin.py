@@ -1,5 +1,6 @@
 from django.contrib import admin
-from recipes.models import Tag, Recipe, Ingredient, Favorite, ShoppingCart, IngredientRecipeAmount
+from recipes.models import (Tag, Recipe, Ingredient,
+                            Favorite, ShoppingCart, IngredientRecipeAmount)
 
 
 class TagAdmin(admin.ModelAdmin):
@@ -18,6 +19,7 @@ class IngredientAdmin(admin.ModelAdmin):
     search_fields = ('name',)
     list_filter = ('name',)
     empty_value_display = '-пусто-'
+    list_per_page = 5
 
 
 class RecipeAdmin(admin.ModelAdmin):
@@ -52,14 +54,13 @@ class ShoppingCartAdmin(admin.ModelAdmin):
 
 
 class IngredientRecipeAmountAdmin(admin.ModelAdmin):
-    def __init__(self, model, admin_site):
-        self.list_display = ([field.name for field in model._meta.fields
-                              if field.name != "id"])
-        super(IngredientRecipeAmountAdmin, self).__init__(model, admin_site)
-
+    list_display = (
+        'id', 'recipe', 'amount'
+    )
     search_fields = ('recipe',)
     list_filter = ('recipe',)
     empty_value_display = '-пусто-'
+    list_per_page = 5
 
 
 admin.site.register(Recipe, RecipeAdmin)

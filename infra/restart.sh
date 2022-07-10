@@ -8,3 +8,4 @@ echo `docker rmi -f $DODCKER_IMG`
 echo `docker-compose up`
 echo `docker exec -it $DOCKER_ID python3 manage.py makemigrations`
 echo `docker exec -it $DOCKER_ID python3 manage.py migrate`
+echo `docker exec -it $DOCKER_ID python3 manage.py runserver`

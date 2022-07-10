@@ -22,6 +22,9 @@ class Tag(models.Model):
         unique=True
     )
 
+    def __str__(self):
+        return self.name
+
 
 class Ingredient(models.Model):
     name = models.CharField(
@@ -53,10 +56,11 @@ class Recipe(models.Model):
         related_name='recipes'
         )
     image = models.ImageField(
-        upload_to='recipes/',
+        upload_to='media',
         null=True,
         blank=True
         )
+
     tags = models.ManyToManyField(
         Tag,
         related_name='recipes',
@@ -145,6 +149,3 @@ class IngredientRecipeAmount(models.Model):
         verbose_name='Ингредиент'
     )
     amount = models.PositiveIntegerField()
-
-    class Meta:
-        unique_together = [['recipe', 'ingredient']]

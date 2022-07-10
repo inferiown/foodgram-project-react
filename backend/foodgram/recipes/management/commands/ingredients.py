@@ -1,4 +1,3 @@
-from lib2to3.pytree import Base
 import json
 from django.core.management.base import BaseCommand
 from recipes.models import Ingredient
@@ -20,6 +19,6 @@ class Command(BaseCommand):
                     name=name,
                     measurement_unit=measurement_unit,)
                 )
-            Ingredient.objects.bulk_create(
-                ingredient_objs, ignore_conflicts=True
-            )
+        Ingredient.objects.bulk_create(
+            ingredient_objs, ignore_conflicts=True
+        )

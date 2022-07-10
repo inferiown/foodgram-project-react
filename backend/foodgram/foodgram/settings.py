@@ -28,6 +28,7 @@ SECRET_KEY = '_j&n_^ifo&ys(+o2iziu&g48370js2g(^4ua0k2f079s*i7%h('
 DEBUG = True
 
 ALLOWED_HOSTS = ['*']
+CSRF_TRUSTED_ORIGINS = ['*']
 
 EMAIL_FROM = 'inffoodgramproject@gmail.com'
 
@@ -42,11 +43,11 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'rest_framework.authtoken',
+    'django_filters',
     'djoser',
     'api',
     'recipes',
     'users',
-    'cart',
 ]
 
 MIDDLEWARE = [
@@ -133,6 +134,10 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+
 DJOSER = {
     'LOGIN_FIELD': 'email',
     'SET_PASSWORD_RETYPE': False,
@@ -145,15 +150,13 @@ DJOSER = {
 
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.IsAuthenticated',
+        'rest_framework.permissions.IsAuthenticatedOrReadOnly',
     ],
     'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework.authentication.BasicAuthentication',
         'rest_framework.authentication.TokenAuthentication',
-        'rest_framework.authentication.SessionAuthentication',
     ],
     'DEFAULT_PAGINATION_CLASS':
-        'rest_framework.pagination.PageNumberPagination',
+        'rest_framework.pagination.LimitOffsetPagination',
     'PAGE_SIZE': 10
 }
 

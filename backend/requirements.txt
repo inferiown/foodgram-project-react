@@ -13,3 +13,4 @@ gunicorn
 psycopg2-binary==2.8.6
 djoser
 django-colorfield
+drf-extra-fields
