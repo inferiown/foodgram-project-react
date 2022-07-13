@@ -118,8 +118,8 @@ class CreateRecipeSerializer(serializers.ModelSerializer):
                         pk=ingredient['id']),
                     amount=ingredient['amount'])
             )
-
-        return ingredient_recipe_objs
+        return IngredientRecipeAmount.objects.bulk_create(
+            ingredient_recipe_objs)
 
     def create(self, validated_data):
         ingredients = self.context['request'].data['ingredients']
@@ -127,11 +127,9 @@ class CreateRecipeSerializer(serializers.ModelSerializer):
         validated_data.pop('ingredient_amount')
         recipe = Recipe.objects.create(author=self.context['request'].user,
                                        **validated_data)
-        ingredient_objects = self.generate_recipe_ingr(ingredients, recipe)
-
-        IngredientRecipeAmount.objects.bulk_create(ingredient_objects)
+        self.generate_recipe_ingr(ingredients, recipe)
         recipe.tags.set(tags)
-        return(recipe)
+        return recipe
 
     def update(self, instance, validated_data):
         request = self.context['request']
@@ -140,9 +138,8 @@ class CreateRecipeSerializer(serializers.ModelSerializer):
 
         IngredientRecipeAmount.objects.filter(recipe=recipe).delete()
 
-        ingredient_objects = self.generate_recipe_ingr(ingredients, recipe)
+        self.generate_recipe_ingr(ingredients, recipe)
 
-        IngredientRecipeAmount.objects.bulk_create(ingredient_objects)
         tags = validated_data.pop('tags')
         recipe.author = request.user
         recipe.tags.set(tags)
@@ -151,7 +148,7 @@ class CreateRecipeSerializer(serializers.ModelSerializer):
         recipe.cooking_time = request.data['cooking_time']
         recipe.name = request.data['name']
 
-        return(recipe)
+        return recipe
 
 
 class FavoriteSerializer(serializers.ModelField):

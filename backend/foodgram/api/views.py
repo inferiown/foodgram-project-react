@@ -136,7 +136,7 @@ class FollowCreateDestroyViewSet(CreateDestroyMixin):
         if user == author:
             return Response('Вы не можете подписаться на самого себя',
                             status=status.HTTP_400_BAD_REQUEST)
-        elif not Follow.objects.filter(user=user, author=author):
+        if not Follow.objects.filter(user=user, author=author):
             Follow.objects.create(user=user, author=author)
             queryset = author
             serializer = FollowUserCreateSerializer(
@@ -204,8 +204,8 @@ class CartViewSet(ListCreateDestroyMixin):
             queryset = get_object_or_404(Recipe, pk=recipe_id)
             serializer = ShoppingCartRecipeSerializer(queryset)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(f'You\'ve already added {recipe.name}'
-                        ' to shopping cart',
+        return Response(f'Вы уже добавили {recipe.name}'
+                        ' в корзину',
                         status=status.HTTP_400_BAD_REQUEST)
 
     def delete(self, request, **kwargs):
