@@ -1,11 +1,11 @@
-from djoser.serializers import UserSerializer
 from django.contrib.auth import get_user_model
-from djoser.serializers import UserCreateSerializer
-from djoser.conf import settings
 from django.contrib.auth.password_validation import validate_password
 from django.core import exceptions as django_exceptions
 from django.db import IntegrityError, transaction
+from djoser.conf import settings
+from djoser.serializers import UserCreateSerializer, UserSerializer
 from rest_framework import serializers
+
 from recipes.models import Follow
 
 User = get_user_model()
@@ -15,8 +15,10 @@ class CustomUserSerializer(UserSerializer):
     is_subscribed = serializers.SerializerMethodField()
 
     def get_is_subscribed(self, obj):
-        return Follow.objects.filter(user=self.context['request'].user,
-                                     author=obj).exists()
+        if not self.context['request'].user.is_anonymous:
+            return Follow.objects.filter(user=self.context['request'].user,
+                                         author=obj).exists()
+        return False
 
     class Meta:
         model = User

@@ -1,8 +1,6 @@
-from django_filters.rest_framework import (BaseInFilter,
-                                           CharFilter,
-                                           FilterSet)
+from django_filters.rest_framework import BaseInFilter, CharFilter, FilterSet
 
-from recipes.models import Recipe, Ingredient
+from recipes.models import Ingredient, Recipe
 
 
 class CharFilterInFilter(BaseInFilter, CharFilter):

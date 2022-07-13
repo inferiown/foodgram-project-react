@@ -1,6 +1,7 @@
 from django.contrib import admin
-from recipes.models import (Tag, Recipe, Ingredient,
-                            Favorite, ShoppingCart, IngredientRecipeAmount)
+
+from recipes.models import (Favorite, Ingredient, IngredientRecipeAmount,
+                            Recipe, ShoppingCart, Tag)
 
 
 class TagAdmin(admin.ModelAdmin):
@@ -22,15 +23,22 @@ class IngredientAdmin(admin.ModelAdmin):
     list_per_page = 5
 
 
-class RecipeAdmin(admin.ModelAdmin):
-    def __init__(self, model, admin_site):
-        self.list_display = ([field.name for field in model._meta.fields
-                              if field.name != "id"])
-        super(RecipeAdmin, self).__init__(model, admin_site)
+class IngredientInline(admin.TabularInline):
+    model = IngredientRecipeAmount
+    extra = 1
+    min_num = 1
 
-    search_fields = ('name',)
+
+class RecipeAdmin(admin.ModelAdmin):
+    list_display = ('name', 'author', 'starred_count',)
+    search_fields = ('name', 'author', 'tags')
     list_filter = ('name',)
     empty_value_display = '-пусто-'
+    inlines = (IngredientInline,)
+
+    def starred_count(self, obj):
+        result = Favorite.objects.filter(recipe=obj).count()
+        return result
 
 
 class FavoriteAdmin(admin.ModelAdmin):
