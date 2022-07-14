@@ -41,9 +41,6 @@ jobs:
       - name: Check out the repo
         # Проверка доступности репозитория Docker Hub для workflow
         uses: actions/checkout@v2 
-      - name: change directory
-        run: |
-          cd ./backend/
       - name: Set up Docker Buildx
         # Вызов сборщика контейнеров docker
         uses: docker/setup-buildx-action@v1 
@@ -53,6 +50,10 @@ jobs:
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
+      - name: change directory
+        run: |
+          ls -lah
+          cd ./backend/
       - name: Push to Docker Hub
         # Пуш образа в Docker Hub 
         uses: docker/build-push-action@v2 
