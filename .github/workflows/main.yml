@@ -52,15 +52,15 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
       - name: change directory
         run: |
-          ls -lah
           cd ./backend/
+          ls -lah
       - name: Push to Docker Hub
         # Пуш образа в Docker Hub 
         uses: docker/build-push-action@v2 
         with:
           push: true
-          file: ./Dockerfile
-          tags: inferiown/backend:latest
+          file: ./backend/Dockerfile
+          tags: inferiown/backend
 
   deploy:
     runs-on: ubuntu-latest
