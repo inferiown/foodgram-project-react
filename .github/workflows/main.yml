@@ -36,10 +36,11 @@ jobs:
   build_and_push_to_docker_hub:
     name: Push Docker image to Docker Hub
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./app
     needs: tests
     steps:
-      - name: change directory
-        working-directory: ./backend
       - name: Check out the repo
         # Проверка доступности репозитория Docker Hub для workflow
         uses: actions/checkout@v2 
