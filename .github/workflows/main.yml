@@ -76,7 +76,7 @@ jobs:
           # Выполняет pull образа с DockerHub
           sudo docker pull inferiown/backend:latest
           #остановка всех контейнеров
-          sudo docker stop $(sudo docker ps -a -q)
+          sudo docker-compose down
           sudo docker-compose up
   send_message:
     runs-on: ubuntu-latest
