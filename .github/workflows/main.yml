@@ -105,7 +105,7 @@ jobs:
           sudo docker pull inferiown/backend:latest
           # остановка всех контейнеров
           sudo docker compose down
-          sudo docker compose up
+          sudo docker compose up -d
 
   send_message:
     runs-on: ubuntu-latest
