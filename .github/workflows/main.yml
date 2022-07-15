@@ -62,25 +62,36 @@ jobs:
 #          file: ./backend/Dockerfile
 #          tags: inferiown/backend
 
+    
+
   deploy:
     runs-on: ubuntu-latest
 #    needs: build_and_push_to_docker_hub
     steps:
-    - name: executing remote ssh commands to deploy
-      uses: appleboy/ssh-action@master
+    - name: copy nginx config
+      uses: appleboy/scp-action@master
       with:
         host: ${{ secrets.HOST }}
         username: ${{ secrets.SSH_USER }}
         key: ${{ secrets.SSH_KEY }}
-        script: |
-          # Выполняет pull образа с DockerHub
-          sudo docker pull inferiown/backend:latest
-          #остановка всех контейнеров
-          sudo docker-compose down
-          sudo docker-compose up
+        source: "./infra/nginx.conf"
+        target: "~/foodgram/nginx.conf"
+#    - name: executing remote ssh commands to deploy
+#      uses: appleboy/ssh-action@master
+#      with:
+#        host: ${{ secrets.HOST }}
+#        username: ${{ secrets.SSH_USER }}
+#        key: ${{ secrets.SSH_KEY }}
+#        script: |
+#          # Выполняет pull образа с DockerHub
+#          sudo docker pull inferiown/backend:latest
+#          #остановка всех контейнеров
+#          sudo docker-compose down
+#          sudo docker-compose up
+
   send_message:
     runs-on: ubuntu-latest
-    needs: deploy
+#    needs: deploy
     steps:
     - name: send message
       uses: appleboy/telegram-action@master
