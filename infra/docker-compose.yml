@@ -25,6 +25,8 @@ services:
     depends_on:
       - backend
   backend:
+    ports:
+      -  "8000:8000"
     image: inferiown/backend:latest
     restart: always
     volumes:
