@@ -71,7 +71,7 @@ jobs:
     steps:
     - name: change directory
       run: |
-        ls -lah
+        ls -lah ../
     - name: copy nginx config
       uses: appleboy/scp-action@master
       with:
