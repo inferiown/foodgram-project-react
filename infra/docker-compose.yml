@@ -5,7 +5,7 @@ services:
     volumes:
       - /var/lib/postgresql/data/
     env_file:
-     - ../backend/.env
+     - ./.env
   frontend:
     build:
       context: ../frontend
@@ -25,9 +25,7 @@ services:
     depends_on:
       - backend
   backend:
-    build:
-      context: ../backend
-      dockerfile: Dockerfile
+    image: inferiown/backend:latest
     restart: always
     volumes:
       - static_value:/app/static/
@@ -35,7 +33,7 @@ services:
     depends_on:
       - db
     env_file:
-     - ../backend/.env
+     - ./.env
 
 volumes:
   static_value:
