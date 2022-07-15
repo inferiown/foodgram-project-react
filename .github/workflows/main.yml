@@ -69,9 +69,11 @@ jobs:
     needs: tests
 #    needs: build_and_push_to_docker_hub
     steps:
+    - uses: actions/checkout@v2
     - name: change directory
       run: |
-        ls -lah ../
+        pwd
+        ls -lah
     - name: copy nginx config
       uses: appleboy/scp-action@master
       with:
