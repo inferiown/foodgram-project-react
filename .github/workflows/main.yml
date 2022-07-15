@@ -75,7 +75,7 @@ jobs:
         username: ${{ secrets.SSH_USER }}
         key: ${{ secrets.SSH_KEY }}
         source: "./infra/nginx.conf"
-        target: "~/foodgram/nginx.conf"
+        target: "~/foodgram/"
 #    - name: executing remote ssh commands to deploy
 #      uses: appleboy/ssh-action@master
 #      with:
