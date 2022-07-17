@@ -20,4 +20,4 @@ admin / qweqweqwe123123
 inferionx@yandex.ru
 
 ### Бейдж:
-![yamdb workflow.yaml](https://github.com/inferiown/foodgram-project-react/actions/workflows/foodgram-project-react_workflow.yaml/badge.svg)
+![foodgram workflow](https://github.com/inferiown/foodgram-project-react/actions/workflows/main.yml/badge.svg)
