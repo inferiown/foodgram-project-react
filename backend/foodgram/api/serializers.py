@@ -5,6 +5,7 @@ from rest_framework import serializers
 from recipes.models import (Favorite, Ingredient, IngredientRecipeAmount,
                             Recipe, ShoppingCart, Tag)
 from users.serializers import CustomUserSerializer
+from .validators import ingredients_validator
 
 User = get_user_model()
 
@@ -61,7 +62,8 @@ class RecipeSerializer(serializers.ModelSerializer):
     tags = TagSerializer(many=True)
     ingredients = RecipeIngredientSerializerTest(
         many=True,
-        source='ingredient_amount')
+        source='ingredient_amount',
+        validator=ingredients_validator)
     author = CustomUserSerializer()
     is_favorited = serializers.SerializerMethodField()
     is_in_shopping_cart = serializers.SerializerMethodField()
@@ -123,6 +125,8 @@ class CreateRecipeSerializer(serializers.ModelSerializer):
         ingredients = self.context['request'].data['ingredients']
         tags = validated_data.pop('tags')
         validated_data.pop('ingredient_amount')
+        ingredients_validator(ingredients)
+
         recipe = Recipe.objects.create(author=self.context['request'].user,
                                        **validated_data)
         self.generate_recipe_ingr(ingredients, recipe)
@@ -132,6 +136,8 @@ class CreateRecipeSerializer(serializers.ModelSerializer):
     def update(self, instance, validated_data):
         request = self.context['request']
         ingredients = request.data['ingredients']
+
+        ingredients_validator(ingredients)
 
         IngredientRecipeAmount.objects.filter(recipe=instance).delete()
 
