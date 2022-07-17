@@ -63,7 +63,7 @@ class RecipeSerializer(serializers.ModelSerializer):
     ingredients = RecipeIngredientSerializerTest(
         many=True,
         source='ingredient_amount',
-        validator=ingredients_validator)
+        validators=[ingredients_validator])
     author = CustomUserSerializer()
     is_favorited = serializers.SerializerMethodField()
     is_in_shopping_cart = serializers.SerializerMethodField()
