@@ -116,7 +116,7 @@ jobs:
         # Запускаем тесты из папки infra
         script: |
           cd ./foodgram/infra
-          sudo python3 tests.py
+          sudo pytest tests.py
 
 
   send_message:
