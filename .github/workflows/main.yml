@@ -116,12 +116,12 @@ jobs:
         # Запускаем тесты из папки infra
         script: |
           cd ./foodgram/infra
-          sudo python3 tests.py
+          sudo pytest tests.py
 
 
   send_message:
     runs-on: ubuntu-latest
-    needs: deploy
+    needs: post_deploy
     steps:
     - name: send message
       uses: appleboy/telegram-action@master
