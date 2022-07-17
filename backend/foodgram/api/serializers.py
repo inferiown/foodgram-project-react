@@ -136,12 +136,12 @@ class CreateRecipeSerializer(serializers.ModelSerializer):
         IngredientRecipeAmount.objects.filter(recipe=instance).delete()
 
         self.generate_recipe_ingr(ingredients, instance)
-
-
-
+        try:
+            instance.image = validated_data['image']
+        except KeyError:
+            pass
         instance.author = request.user
         instance.tags.set(validated_data['tags'])
-        instance.image = validated_data['image']
         instance.text = validated_data['text']
         instance.cooking_time = validated_data['cooking_time']
         instance.name = validated_data['name']
