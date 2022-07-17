@@ -1,5 +1,4 @@
 from django.contrib.auth import get_user_model
-from django.shortcuts import get_object_or_404
 from drf_extra_fields.fields import Base64ImageField
 from rest_framework import serializers
 
@@ -113,8 +112,7 @@ class CreateRecipeSerializer(serializers.ModelSerializer):
             ingredient_recipe_objs.append(
                 IngredientRecipeAmount(
                     recipe=recipe,
-                    ingredient=get_object_or_404(
-                        Ingredient,
+                    ingredient=Ingredient.objects.get(
                         pk=ingredient['id']),
                     amount=ingredient['amount'])
             )
@@ -134,21 +132,22 @@ class CreateRecipeSerializer(serializers.ModelSerializer):
     def update(self, instance, validated_data):
         request = self.context['request']
         ingredients = request.data['ingredients']
-        recipe = get_object_or_404(Recipe, pk=instance.pk)
 
-        IngredientRecipeAmount.objects.filter(recipe=recipe).delete()
+        IngredientRecipeAmount.objects.filter(recipe=instance).delete()
 
-        self.generate_recipe_ingr(ingredients, recipe)
+        self.generate_recipe_ingr(ingredients, instance)
 
-        tags = validated_data.pop('tags')
-        recipe.author = request.user
-        recipe.tags.set(tags)
-        recipe.image = request.data['image']
-        recipe.text = request.data['text']
-        recipe.cooking_time = request.data['cooking_time']
-        recipe.name = request.data['name']
 
-        return recipe
+
+        instance.author = request.user
+        instance.tags.set(validated_data['tags'])
+        instance.image = validated_data['image']
+        instance.text = validated_data['text']
+        instance.cooking_time = validated_data['cooking_time']
+        instance.name = validated_data['name']
+
+        instance.save()
+        return instance
 
 
 class FavoriteSerializer(serializers.ModelField):

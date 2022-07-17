@@ -62,7 +62,8 @@ class Recipe(models.Model):
         upload_to='media',
         null=True,
         blank=True,
-        verbose_name='Изображение'
+        verbose_name='Изображение',
+        max_length=2048
         )
 
     tags = models.ManyToManyField(

@@ -34,6 +34,8 @@ class CustomUserCreateSerializer(UserCreateSerializer):
             settings.USER_ID_FIELD,
             "username",
             "password",
+            "first_name",
+            "last_name"
         )
 
     def validate(self, attrs):

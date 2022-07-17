@@ -93,7 +93,7 @@ class RecipeViewSet(AllMethodsMixin):
                                             context={'request': request},
                                             data=request.data,
                                             partial=partial)
-        serializer.is_valid(raise_exception=True)
+        serializer.is_valid()
         self.perform_update(serializer)
 
         if getattr(instance, '_prefetched_objects_cache', None):
