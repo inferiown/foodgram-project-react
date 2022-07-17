@@ -141,6 +141,9 @@ DJOSER = {
         'user': 'users.serializers.CustomUserSerializer',
         'user_create': 'users.serializers.CustomUserCreateSerializer',
         },
+    'PERMISSIONS': {
+        "user": ["djoser.permissions.CurrentUserOrAdminOrReadOnly"],
+    }
 }
 
 REST_FRAMEWORK = {
