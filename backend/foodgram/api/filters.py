@@ -16,6 +16,10 @@ class RecipeFilter(FilterSet):
         field_name='name',
         lookup_expr='contains'
     )
+    author = CharFilterInFilter(
+        field_name='author__pk',
+        lookup_expr='in'
+    )
 
     class Meta:
         model = Recipe
